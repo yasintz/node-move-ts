@@ -51,12 +51,12 @@ async function moveFolder(
     const file = path.join(sourcePath, files[index]);
     const baseName = path.basename(file);
     const newTarget = path.join(targetPath, baseName);
-    await moveInternal(importer, file, newTarget);
+    await move(importer, file, newTarget);
   }
   await fs.removeAsync(sourcePath);
 }
 
-async function moveInternal(
+async function move(
   importer: ReferenceIndexer,
   source: string,
   target: string
@@ -82,32 +82,25 @@ async function moveInternal(
   return moveFile(importer, sourcePath, targetPath);
 }
 
-async function move(
-  rootOrImporter: string | ReferenceIndexer,
-  source: string,
-  target: string
-) {
-  if (typeof rootOrImporter === 'string') {
-    const root = rootOrImporter;
-    const importer = new ReferenceIndexer(root);
-    await importer.init();
+// async function move2(
+//   rootOrImporter: string | ReferenceIndexer,
+//   source: string,
+//   target: string
+// ) {
+//   if (typeof rootOrImporter === 'string') {
+//     const root = rootOrImporter;
+//     const importer = new ReferenceIndexer(root);
+//     await importer.init();
 
-    return moveInternal(
-      importer,
-      path.join(root, source),
-      path.join(root, target)
-    );
-  }
-  const importer = rootOrImporter;
-  const root = rootOrImporter.rootPath;
-  await importer.init();
+//     return move(importer, path.join(root, source), path.join(root, target));
+//   }
+//   const importer = rootOrImporter;
+//   const root = rootOrImporter.rootPath;
+//   await importer.init();
 
-  return moveInternal(
-    importer,
-    path.join(root, source),
-    path.join(root, target)
-  );
-}
+//   return move(importer, path.join(root, source), path.join(root, target));
+// }
 
 export default move;
-export { ReferenceIndexer };
+export { ReferenceIndexer, move };
+module.exports = move;
