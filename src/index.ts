@@ -82,8 +82,24 @@ async function moveInternal(
   return moveFile(importer, sourcePath, targetPath);
 }
 
-async function move(root: string, source: string, target: string) {
-  const importer = new ReferenceIndexer(root);
+async function move(
+  rootOrImporter: string | ReferenceIndexer,
+  source: string,
+  target: string
+) {
+  if (typeof rootOrImporter === 'string') {
+    const root = rootOrImporter;
+    const importer = new ReferenceIndexer(root);
+    await importer.init();
+
+    return moveInternal(
+      importer,
+      path.join(root, source),
+      path.join(root, target)
+    );
+  }
+  const importer = rootOrImporter;
+  const root = rootOrImporter.rootPath;
   await importer.init();
 
   return moveInternal(
@@ -92,4 +108,6 @@ async function move(root: string, source: string, target: string) {
     path.join(root, target)
   );
 }
+
 export default move;
+export { ReferenceIndexer };

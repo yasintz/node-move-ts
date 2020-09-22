@@ -37,14 +37,20 @@ export class ReferenceIndexer {
   private packageNames: { [key: string]: string } = {};
 
   private extensions: string[] = ['.ts', '.tsx'];
+  private isInitialized: boolean = false;
 
   constructor(readonly rootPath: string) {}
 
   public init = async () => {
+    if (this.isInitialized) {
+      return;
+    }
+
     this.index = new ReferenceIndex();
 
     await this.readPackageNames();
     await this.scanAll();
+    this.isInitialized = true;
   };
 
   private readPackageNames(): Thenable<any> {
