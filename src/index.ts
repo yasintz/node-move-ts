@@ -103,4 +103,3 @@ async function move(
 
 export default move;
 export { ReferenceIndexer, move };
-module.exports = move;
