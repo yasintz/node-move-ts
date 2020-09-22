@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "move-typescript",
+  "name": "movets",
   "author": "yasintz",
   "module": "dist/move-typescript.esm.js",
   "size-limit": [

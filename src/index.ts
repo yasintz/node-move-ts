@@ -86,6 +86,10 @@ async function move(root: string, source: string, target: string) {
   const importer = new ReferenceIndexer(root);
   await importer.init();
 
-  return moveInternal(importer, source, target);
+  return moveInternal(
+    importer,
+    path.join(root, source),
+    path.join(root, target)
+  );
 }
 export default move;
